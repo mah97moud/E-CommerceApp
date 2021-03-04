@@ -9,31 +9,31 @@ class Courses extends StatelessWidget {
     return Center(
       child: Padding(
         padding: EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                BrandContainer(
-                  backgroundColor: kWhite(),
-                  icon: MHIcons.branding,
-                  brandName: 'Branding',
-                  iconColor: kPaleLilac(),
-                ),
-                Spacer(),
-                BrandContainer(
-                  backgroundColor: kWhite(),
-                  icon: MHIcons.design,
-                  brandName: 'Design',
-                  iconColor: kPaleLilac(),
-                  iconSize: 15.0,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Expanded(
-              child: ListView.separated(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  BrandContainer(
+                    backgroundColor: kWhite(),
+                    icon: MHIcons.branding,
+                    brandName: 'Branding',
+                    iconColor: kPaleLilac(),
+                  ),
+                  Spacer(),
+                  BrandContainer(
+                    backgroundColor: kWhite(),
+                    icon: MHIcons.design,
+                    brandName: 'Design',
+                    iconColor: kPaleLilac(),
+                    iconSize: 15.0,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              ListView.separated(
                 shrinkWrap: true,
                 physics: true
                     ? BouncingScrollPhysics()
@@ -42,13 +42,13 @@ class Courses extends StatelessWidget {
                   return CourseRow();
                 },
                 separatorBuilder: (context, index) => Container(
-                  height: 1.0,
-                  color: Colors.grey[300],
-                ),
+                    // height: 1.0,
+                    // color: Colors.grey[300],
+                    ),
                 itemCount: 10,
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

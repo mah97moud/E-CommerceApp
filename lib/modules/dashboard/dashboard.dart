@@ -47,21 +47,8 @@ class Dashboard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: false
-                          ? BouncingScrollPhysics()
-                          : NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return CourseRow(
-                          course: dashboardCubit.coursesList[index],
-                        );
-                      },
-                      separatorBuilder: (context, index) => Container(
-                        height: 1.0,
-                        color: Colors.grey[300],
-                      ),
-                      itemCount: dashboardCubit.coursesList.length,
+                    CourseItem(
+                      course: dashboardCubit.coursesList,
                     ),
                     if (dashboardCubit.currentPage <= dashboardCubit.totalPages)
                       ConditionalBuilder(

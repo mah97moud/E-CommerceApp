@@ -74,6 +74,8 @@ class AppTextField extends StatelessWidget {
   final TextInputType type;
   final bool isPassword;
   final TextEditingController controller;
+  final Widget suffix;
+  final bool focus;
 
   const AppTextField({
     this.labelText,
@@ -82,23 +84,27 @@ class AppTextField extends StatelessWidget {
     this.type,
     this.controller,
     this.isPassword = false,
+    this.suffix,
+    this.focus,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
-        color: kLightGrey(),
+        color: kWhite(),
         borderRadius: BorderRadius.circular(
           10.0,
         ),
       ),
       child: TextFormField(
+        autofocus: focus ?? false,
         cursorColor: kPrimaryLight(),
         controller: controller,
         obscureText: isPassword,
         decoration: InputDecoration(
           border: InputBorder.none,
+          suffix: suffix,
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               color: kPrimaryDark(),
@@ -121,88 +127,100 @@ class CourseRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 20.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleIcon(
-            radius: 30.0,
-            icon: MHIcons.bxs_graduation,
-            iconColor: kPaleLilac(),
-            iconSize: 15.0,
-          ),
-          SizedBox(
-            width: 10.0,
-          ),
-          Expanded(
-            flex: 2,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  course != null ? course['title'].toString() : 'title',
-                  style: tChaGrey16(),
-                ),
-                Text(
-                  course != null ? course['description'] : 'description',
-                  style: tChaGrey12(),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+      padding: EdgeInsets.symmetric(vertical: 10.0),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 10.0,
+        ),
+        decoration: BoxDecoration(
+          color: kWhite(),
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleIcon(
+              radius: 30.0,
+              icon: MHIcons.bxs_graduation,
+              iconColor: kPaleLilac(),
+              iconSize: 15.0,
             ),
-          ),
-          SizedBox(
-            width: 5.0,
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Total ratings',
-                  style: tChaGrey12(),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      MHIcons.star_full,
-                      size: 10.0,
-                      color: kYellow(),
-                    ),
-                    Icon(
-                      MHIcons.star_full,
-                      size: 10.0,
-                      color: kYellow(),
-                    ),
-                    Icon(
-                      MHIcons.star_full,
-                      size: 10.0,
-                      color: kYellow(),
-                    ),
-                    Icon(
-                      MHIcons.star_full,
-                      size: 10.0,
-                      color: kYellow(),
-                    ),
-                    Icon(
-                      MHIcons.star_full,
-                      size: 10.0,
-                    ),
-                  ],
-                ),
-              ],
+            SizedBox(
+              width: 10.0,
             ),
-          ),
-        ],
+            Expanded(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    course != null ? course['title'].toString() : 'title',
+                    style: tChaGrey16(),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  Text(
+                    course != null ? course['description'] : 'description',
+                    style: tChaGrey12(),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 5.0,
+            ),
+            Expanded(
+              flex: 1,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Total ratings',
+                    style: tChaGrey12(),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        MHIcons.star_full,
+                        size: 10.0,
+                        color: kYellow(),
+                      ),
+                      Icon(
+                        MHIcons.star_full,
+                        size: 10.0,
+                        color: kYellow(),
+                      ),
+                      Icon(
+                        MHIcons.star_full,
+                        size: 10.0,
+                        color: kYellow(),
+                      ),
+                      Icon(
+                        MHIcons.star_full,
+                        size: 10.0,
+                        color: kYellow(),
+                      ),
+                      Icon(
+                        MHIcons.star_full,
+                        size: 10.0,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -389,6 +407,33 @@ class AppCircleAvatar extends StatelessWidget {
           url,
         ),
       ),
+    );
+  }
+}
+
+class CourseItem extends StatelessWidget {
+  const CourseItem({
+    @required this.course,
+    this.isScrollable = false,
+  });
+
+  final List course;
+  final bool isScrollable;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: isScrollable
+          ? BouncingScrollPhysics()
+          : NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return CourseRow(
+          course: course[index],
+        );
+      },
+      separatorBuilder: (context, index) => Container(),
+      itemCount: course.length,
     );
   }
 }
